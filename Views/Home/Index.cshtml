@@ -1,8 +1,66 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+@model LocalBrands.ViewModels.HomeViewModel
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+     @* Hero Section صوره وشوية كلام عن اللوكال براندس  *@
+     <h2> Local Brands Hub</h2>
+
+
+
+     @* New Arrival  *@
+
+<div class="container mt-4">
+    <h2 class="text-center mb-4">New Arrivals</h2>
+
+    <div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-4">
+        @foreach (var item in Model.NewArrivals)
+        {
+            <div class="col">
+                <div class="card h-100 shadow-sm">
+                    <img src="~/images/@item.PictureUrl" class="card-img-top" alt="@item.Name"
+                         style="height: 300px; object-fit: cover;">
+
+                    <div class="card-body">
+                        <h5 class="card-title text-truncate">@item.Name</h5>
+                        <p class="card-text text-muted mb-1">Brand Name: @item.Brand.Name</p>
+                        <p class="card-text fw-bold text-warning">@item.Price.ToString("N2") EGP</p>
+                        <div class="d-grid">
+                            <a href="/Product/ProductDetails/@item.Id" class="btn btn-outline-dark btn-sm">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+
+
+   @* Best Seller  *@
+ 
+
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Best Seller</h2>
+
+    <div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-4">
+        @foreach (var item in Model.BestSellers)
+        {
+            <div class="col">
+                <div class="card h-100 shadow-sm">
+                    <img src="~/images/@item.PictureUrl" class="card-img-top" alt="@item.Name"
+                         style="height: 300px; object-fit: cover;">
+
+                    <div class="card-body">
+                        <h5 class="card-title text-truncate">@item.Name</h5>
+                        <p class="card-text text-muted mb-1">Brand Name: @item.Brand.Name</p>
+                        <p class="card-text fw-bold text-warning">@item.Price.ToString("N2") EGP</p>
+                        <div class="d-grid">
+                            <a href="/Product/ProductDetails/@item.Id" class="btn btn-outline-dark btn-sm">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
 </div>

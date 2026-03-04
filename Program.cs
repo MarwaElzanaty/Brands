@@ -2,6 +2,8 @@ using LocalBrands.Data;
 using LocalBrands.Data.Repository.Implementation;
 using LocalBrands.Data.Repository.Interfaces;
 using LocalBrands.Models;
+using LocalBrands.Services.Implementation;
+using LocalBrands.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -26,7 +28,7 @@ builder.Services.AddScoped<IReviewRepo>(sp => sp.GetRequiredService<ReviewRepo>(
 builder.Services.AddScoped<IRepository<Review>>(sp => sp.GetRequiredService<ReviewRepo>());
 builder.Services.AddScoped<IBrandRepo>(sp => sp.GetRequiredService<BrandRepo>());
 builder.Services.AddScoped<IRepository<Brand>>(sp => sp.GetRequiredService<BrandRepo>());
-
+builder.Services.AddScoped<IHomeService, HomeService>();
 
 
 

@@ -1,12 +1,26 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using LocalBrands.Models;
+using LocalBrands.Services.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 
 namespace LocalBrands.Controllers
 {
     public class ProductController : Controller
     {
-        public IActionResult Index()
+        IHomeService HomeService;
+        public ProductController(IHomeService homeService)
         {
-            return View();
+            HomeService = homeService;
+        }       
+       // /Product/ProductDetails/4
+        public IActionResult ProductDetails(int id)
+        {
+            var product= HomeService.ProductByID(id);
+            if (product == null)
+            {
+                return NotFound();
+            }
+            return View(product);
         }
+       
     }
 }
