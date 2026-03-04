@@ -4,6 +4,7 @@ using LocalBrands.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LocalBrands.Migrations
 {
     [DbContext(typeof(ApplicationDB))]
-    partial class ApplicationDBModelSnapshot : ModelSnapshot
+    [Migration("20260304002823_update-ProductModel")]
+    partial class updateProductModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -310,190 +313,6 @@ namespace LocalBrands.Migrations
                     b.HasIndex("CategoryId");
 
                     b.ToTable("Product");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 2,
-                            BrandId = 4,
-                            CategoryId = 1,
-                            Description = "100% Cotton",
-                            Name = "Casual T-Shirt",
-                            PictureUrl = "img2.jpg",
-                            Price = 450m,
-                            Rating = 4.0,
-                            SalesCount = 25,
-                            createdAt = new DateTime(2026, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 3,
-                            BrandId = 4,
-                            CategoryId = 1,
-                            Description = "Perfect for parties",
-                            Name = "Evening Dress",
-                            PictureUrl = "img3.jpg",
-                            Price = 2500m,
-                            Rating = 5.0,
-                            SalesCount = 5,
-                            createdAt = new DateTime(2026, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 4,
-                            BrandId = 5,
-                            CategoryId = 2,
-                            Description = "Pure silver 925",
-                            Name = "Silver Necklace",
-                            PictureUrl = "img4.jpg",
-                            Price = 800m,
-                            Rating = 4.0,
-                            SalesCount = 15,
-                            createdAt = new DateTime(2026, 1, 12, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 5,
-                            BrandId = 3,
-                            CategoryId = 1,
-                            Description = "Winter collection",
-                            Name = "Classic Jacket",
-                            PictureUrl = "img5.jpg",
-                            Price = 1800m,
-                            Rating = 5.0,
-                            SalesCount = 8,
-                            createdAt = new DateTime(2026, 1, 15, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 6,
-                            BrandId = 5,
-                            CategoryId = 2,
-                            Description = "Water resistant",
-                            Name = "Modern Watch",
-                            PictureUrl = "img6.jpg",
-                            Price = 3200m,
-                            Rating = 4.0,
-                            SalesCount = 12,
-                            createdAt = new DateTime(2026, 1, 20, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 7,
-                            BrandId = 4,
-                            CategoryId = 1,
-                            Description = "Soft touch",
-                            Name = "Silk Scarf",
-                            PictureUrl = "img7.jpg",
-                            Price = 350m,
-                            Rating = 3.0,
-                            SalesCount = 30,
-                            createdAt = new DateTime(2026, 1, 25, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 8,
-                            BrandId = 5,
-                            CategoryId = 2,
-                            Description = "18k Gold",
-                            Name = "Gold Ring",
-                            PictureUrl = "img8.jpg",
-                            Price = 5000m,
-                            Rating = 5.0,
-                            SalesCount = 3,
-                            createdAt = new DateTime(2026, 1, 28, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 9,
-                            BrandId = 3,
-                            CategoryId = 2,
-                            Description = "Genuine leather",
-                            Name = "Leather Belt",
-                            PictureUrl = "img9.jpg",
-                            Price = 600m,
-                            Rating = 4.0,
-                            SalesCount = 20,
-                            createdAt = new DateTime(2026, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 10,
-                            BrandId = 4,
-                            CategoryId = 1,
-                            Description = "Slim fit",
-                            Name = "Denim Jeans",
-                            PictureUrl = "img10.jpg",
-                            Price = 950m,
-                            Rating = 4.0,
-                            SalesCount = 18,
-                            createdAt = new DateTime(2026, 2, 5, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 11,
-                            BrandId = 3,
-                            CategoryId = 1,
-                            Description = "Warm for winter",
-                            Name = "Woolen Hat",
-                            PictureUrl = "img11.jpg",
-                            Price = 250m,
-                            Rating = 3.0,
-                            SalesCount = 40,
-                            createdAt = new DateTime(2026, 2, 10, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 12,
-                            BrandId = 5,
-                            CategoryId = 2,
-                            Description = "Luxury edition",
-                            Name = "Designer Handbag",
-                            PictureUrl = "img12.jpg",
-                            Price = 4200m,
-                            Rating = 5.0,
-                            SalesCount = 7,
-                            createdAt = new DateTime(2026, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 13,
-                            BrandId = 3,
-                            CategoryId = 1,
-                            Description = "Cozy fit",
-                            Name = "Cotton Hoodie",
-                            PictureUrl = "img1.jpg",
-                            Price = 1200m,
-                            Rating = 4.0,
-                            SalesCount = 15,
-                            createdAt = new DateTime(2026, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 14,
-                            BrandId = 4,
-                            CategoryId = 1,
-                            Description = "Comfortable for running",
-                            Name = "Sport Shoes",
-                            PictureUrl = "img2.jpg",
-                            Price = 2200m,
-                            Rating = 5.0,
-                            SalesCount = 10,
-                            createdAt = new DateTime(2026, 2, 22, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 15,
-                            BrandId = 5,
-                            CategoryId = 2,
-                            Description = "Stylish sun protection",
-                            Name = "Summer Cap",
-                            PictureUrl = "img3.jpg",
-                            Price = 300m,
-                            Rating = 3.0,
-                            SalesCount = 50,
-                            createdAt = new DateTime(2026, 2, 25, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        });
                 });
 
             modelBuilder.Entity("LocalBrands.Models.Review", b =>
