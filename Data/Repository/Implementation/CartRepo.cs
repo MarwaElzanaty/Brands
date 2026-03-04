@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LocalBrands.Data.Repository.Implementation
 {
-    public class CartRepo : ICartRepo,IRepository<Cart>
+    public class CartRepo : ICartRepo
     {
         // Ref from context
         ApplicationDB context;
@@ -18,7 +18,8 @@ namespace LocalBrands.Data.Repository.Implementation
         //crud operation
         public void Add(Cart entity)
         {
-            context.Add(entity);
+            
+            context.Cart.Add(entity);
         }
         public void Delete(Cart entity)
         {
@@ -43,7 +44,12 @@ namespace LocalBrands.Data.Repository.Implementation
 
         public Cart? GetById(int id)
         {
-            return context.Cart.SingleOrDefault(c => c.Id == id);
+            return context.Cart.SingleOrDefault(c => c.UserId == id.ToString());
+        }
+        //extend
+        public Cart? GetByIdString(string id)
+        {
+            return context.Cart.SingleOrDefault(c => c.UserId == id);
         }
 
         public void Save()

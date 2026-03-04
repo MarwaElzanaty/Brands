@@ -47,7 +47,11 @@ namespace LocalBrands.Data.Repository.Implementation
         }
         public Product? GetById(int id)
         {
-            return context.Product.SingleOrDefault(p => p.Id == id);
+            return context.Product.Include(p => p.Brand)
+                .Include(c => c.Category)
+                .Include(c => c.CartItems)
+                .Include(o => o.OrderItems)
+                .Include(r => r.Reviews).FirstOrDefault(p => p.Id == id);
         }
         public void Save()
         {

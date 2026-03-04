@@ -1,15 +1,29 @@
-using System.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
+using LocalBrands.Data.Repository.Implementation;
+using LocalBrands.Data.Repository.Interfaces;
 using LocalBrands.Models;
-
+using LocalBrands.ViewModels;
+using LocalBrands.Services.Interfaces;
+using LocalBrands.Services.Implementation;
+using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
 namespace LocalBrands.Controllers;
 
 public class HomeController : Controller
-{
-    public IActionResult Index()
+{  
+    IHomeService homeService;
+    public HomeController(IHomeService homeService)
     {
-        return View();
+        this.homeService = homeService;
     }
+    public IActionResult Index()
+    {       
+        HomeViewModel homeVM = new HomeViewModel();
+        homeVM.NewArrivals = homeService.NewArrivals(8);
+        homeVM.BestSellers = homeService.BestSellers(10);     
+        return View(homeVM);
+    }
+
+    
 
     public IActionResult Privacy()
     {
