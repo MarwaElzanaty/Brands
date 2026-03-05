@@ -4,6 +4,7 @@ using LocalBrands.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LocalBrands.Migrations
 {
     [DbContext(typeof(ApplicationDB))]
-    partial class ApplicationDBModelSnapshot : ModelSnapshot
+    [Migration("20260304013313_productData")]
+    partial class productData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -99,9 +102,6 @@ namespace LocalBrands.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
@@ -118,8 +118,6 @@ namespace LocalBrands.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CategoryId");
 
                     b.ToTable("Brand");
                 });
@@ -688,17 +686,6 @@ namespace LocalBrands.Migrations
                     b.HasDiscriminator().HasValue("Role");
                 });
 
-            modelBuilder.Entity("LocalBrands.Models.Brand", b =>
-                {
-                    b.HasOne("LocalBrands.Models.Category", "Category")
-                        .WithMany("Brands")
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Category");
-                });
-
             modelBuilder.Entity("LocalBrands.Models.Cart", b =>
                 {
                     b.HasOne("LocalBrands.Models.ApplicationUser", "User")
@@ -878,8 +865,6 @@ namespace LocalBrands.Migrations
 
             modelBuilder.Entity("LocalBrands.Models.Category", b =>
                 {
-                    b.Navigation("Brands");
-
                     b.Navigation("Products");
                 });
 

@@ -10,6 +10,8 @@ namespace LocalBrands.Models
         public string Description { get; set; }
         public string PictureUrl { get; set; }
         public double Rating { get; set; }
+        public DateTime createdAt {  get; set; }
+        public int SalesCount { get; set; }
         [ForeignKey("Brand")]
         public int BrandId { get; set; }
         [ForeignKey("Category")]

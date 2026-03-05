@@ -11,7 +11,6 @@
         public void Update(T entity);
         public void Delete(T entity);
         public void DeleteById(int id);
-
         public void Save(); 
 
     }
