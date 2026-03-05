@@ -1,4 +1,7 @@
 using LocalBrands.Data;
+using LocalBrands.Data.Repository.Implementation;
+using LocalBrands.Data.Repository.Interfaces;
+using LocalBrands.Models;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +13,9 @@ builder.Services.AddDbContext<ApplicationDB>(optionbuilder =>
 {
     optionbuilder.UseSqlServer(builder.Configuration.GetConnectionString("conString"));
 });
+
+builder.Services.AddScoped<ICategoryRepo, CategoryRepo>();
+
 
 
 var app = builder.Build();

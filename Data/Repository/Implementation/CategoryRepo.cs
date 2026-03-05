@@ -5,26 +5,28 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LocalBrands.Data.Repository.Implementation
 {
-    public class CategoryRepo : ICategoryRepo,IRepository<Category>
+    public class CategoryRepo : ICategoryRepo //IRepository<Category>
     {
-        // Ref from context
-        ApplicationDB context;
-
-        // context injected 
+        private readonly ApplicationDB context;
         public CategoryRepo(ApplicationDB context)
         {
             this.context = context;
         }
 
+        public List<Category> GetAll()
+        {
+            return context.Category.Include(c => c.Products).ToList();
+        }
+
+        public Category? GetById(int id)
+        {
+            return context.Category.Include(c => c.Products).ThenInclude(p => p.Brand) .Include(c => c.Brands)       .SingleOrDefault(c => c.Id == id);
+        }
+
         // crud operations
         public void Add(Category entity)
         {
-            context.Add(entity);
-        }
-
-        public void Delete(Category entity)
-        {
-           context.Remove(entity);
+            context.Category.Add(entity);
         }
 
         public void DeleteById(int id)
@@ -35,27 +37,19 @@ namespace LocalBrands.Data.Repository.Implementation
                 context.Remove(item);
             }
         }
-
-        public List<Category> GetAll()
-        {
-            List<Category> list = new List<Category>();
-            list= context.Category.Include(p=>p.Products).ToList();
-            return list;
-        }
-
-        public Category? GetById(int id)
-        {
-            return context.Category.SingleOrDefault(d => d.Id == id);
-        }
-
         public void Save()
         {
            context.SaveChanges();
         }
-
         public void Update(Category entity)
         {
-           context.Update(entity);
+            //
         }
+
+        public void Delete(Category entity)
+        {
+           //
+        }
+
     }
 }
