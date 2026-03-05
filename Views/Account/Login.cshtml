@@ -1,0 +1,118 @@
+﻿@model LocalBrands.ViewModels.LoginViewModel
+
+@{
+    Layout = "__AuthLayout";
+
+    ViewData["Title"] = "Login";
+}
+
+<div class="container py-5">
+    <div class="login-container shadow-sm p-4 rounded">
+        <h2 class="mb-4 text-center">Login</h2>
+
+        <!-- Login Form -->
+        <form asp-action="Login" method="post">
+            <div asp-validation-summary="All" class="text-danger mb-3"></div>
+
+            <div class="mb-3">
+                <label asp-for="Email" class="form-label"></label>
+                <input asp-for="Email" class="form-control" placeholder="Enter your email" />
+                <span asp-validation-for="Email" class="text-danger small"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Password" class="form-label"></label>
+                <input asp-for="Password" type="password" class="form-control" placeholder="Enter your password" />
+                <span asp-validation-for="Password" class="text-danger small"></span>
+            </div>
+
+            <div class="mb-3 form-check">
+                <input asp-for="RememberMe" class="form-check-input" />
+                <label asp-for="RememberMe" class="form-check-label">@Html.DisplayNameFor(model => model.RememberMe)</label>
+            </div>
+
+            <div class="d-grid mb-3">
+                <button type="submit" class="btn btn-primary btn-login">Login</button>
+            </div>
+        </form>
+
+        <!-- External Login Providers -->
+        @if (Model.Schemes.Any())
+        {
+            <div class="text-center mb-3">
+                <p>Or login with:</p>
+                <form asp-action="ExternalLogin" method="post">
+                    @foreach (var provider in Model.Schemes)
+                    {
+                        <button type="submit" name="provider" value="@provider.Name" class="btn btn-outline-secondary m-1">
+                            @provider.DisplayName
+                        </button>
+                    }
+                </form>
+            </div>
+        }
+
+        <!-- Register Link -->
+        <div class="text-center">
+            <p>
+                Don't have an account?
+                <a asp-action="Register" style="color:#F82249; font-weight:bold;">Register here</a>
+            </p>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        body {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('/images/cover.jpg') no-repeat center center;
+            background-size: cover;
+        }
+
+        .login-container {
+            max-width: 450px;
+            background-color: rgba(255, 255, 255, 0.95);
+            margin: auto;
+            margin-top: 80px;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+        }
+
+        .form-label {
+            font-weight: bold;
+        }
+
+        .btn-login {
+            background-color: #0e1b4d;
+            color: white;
+            border: 1px solid #0e1b4d;
+        }
+
+            .btn-login:hover {
+                background-color: white;
+                color: #0e1b4d;
+                border: 1px solid #0e1b4d;
+            }
+
+        .btn-outline-secondary {
+            border-color: #0e1b4d;
+            color: #0e1b4d;
+        }
+
+            .btn-outline-secondary:hover {
+                background-color: #0e1b4d;
+                color: white;
+                border-color: #0e1b4d;
+            }
+
+        .form-check-label {
+            margin-left: 0.25rem;
+        }
+    </style>
+}
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js"></script>
+}
