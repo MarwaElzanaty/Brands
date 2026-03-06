@@ -1,0 +1,237 @@
+﻿using LocalBrands.Models;
+using LocalBrands.Services.interfaces;
+using LocalBrands.ViewModels;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+
+namespace LocalBrands.Services.Implementation
+{
+    public class UserService : IUserService
+    {
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+
+        public UserService(UserManager<ApplicationUser> userManager,
+                           SignInManager<ApplicationUser> signInManager)
+        {
+            _userManager = userManager;
+            _signInManager = signInManager;
+        }
+
+        public async Task<IdentityResult> RegisterUserAsync(RegisterViewModel model, bool autoSignIn)
+        {
+            ApplicationUser userFromDb = new ApplicationUser()
+            {
+                Email = model.Email,
+                UserName = model.Email.Split('@')[0],
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                Gender = model.Gender,
+                ProfileUrl = model.ProfileUrl,
+                Address = model.Address,
+                City = model.City,
+                PhoneNumber = model.PhoneNumber,
+                NationalId = model.NationalId,
+                DateOfBrith = model.DateOfBirth
+            };
+
+            IdentityResult identityResult =
+                await _userManager.CreateAsync(userFromDb, model.Password);
+
+            if (identityResult.Succeeded)
+            {
+                await _userManager.AddToRoleAsync(userFromDb, "User");
+
+                if (autoSignIn)
+                {
+                    await _signInManager.SignInAsync(userFromDb, isPersistent: false);
+                }
+            }
+
+            return identityResult;
+        }
+
+        public async Task<SignInResult> LoginUserAsync(LoginViewModel model, bool rememberme)
+        {
+            ApplicationUser user =
+                await _userManager.FindByEmailAsync(model.Email);
+
+            if (user != null)
+            {
+                bool found =
+                    await _userManager.CheckPasswordAsync(user, model.Password);
+
+                if (found)
+                {
+                    await _signInManager.SignInAsync(user, rememberme);
+                    return SignInResult.Success;
+                }
+            }
+
+            return SignInResult.Failed;
+        }
+
+        public async Task SignOutUserAsync()
+        {
+            await _signInManager.SignOutAsync();
+        }
+
+
+        public EditProfileViewModel? GetUserById(string userId)
+        {
+            var user = _userManager.FindByIdAsync(userId);
+
+            if (user.Result != null)
+            {
+                var userViewModel = new EditProfileViewModel()
+                {
+                    Id = user.Result.Id,
+                    Email = user.Result.Email,
+                    ProfileUrl = user.Result.ProfileUrl,
+                    Address = user.Result.Address,
+                    City = user.Result.City,
+                    PhoneNumber = user.Result.PhoneNumber
+                };
+                return userViewModel;
+            }
+            return null;
+        }
+        public async Task<IdentityResult> UpdateUserAsync(EditProfileViewModel model)
+        {
+            var user = await _userManager.FindByIdAsync(model.Id);
+            if (user == null)
+            {
+                return IdentityResult.Failed(new IdentityError[] { new IdentityError { Description = "User not found." } });
+            }
+
+
+            user.ProfileUrl = model.ProfileUrl;
+            user.Address = model.Address;
+            user.City = model.City;
+            user.PhoneNumber = model.PhoneNumber;
+
+            return await _userManager.UpdateAsync(user);
+        }
+
+        public async Task<IdentityResult> DeleteUserAsync(string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                return IdentityResult.Failed(new IdentityError[] { new IdentityError { Description = "User not found." } });
+            }
+
+            var result = await _userManager.DeleteAsync(user);
+            //if (result.Succeeded)
+            //{
+            //    await _signInManager.SignOutAsync();
+            //}
+            return result;
+        }
+        public List<EditProfileViewModel> GetAllUsers()
+        {
+            var users = _userManager.Users.Where(u => u.FirstName != "Admin").ToList();
+            var userViewModels = new List<EditProfileViewModel>();
+            foreach (var user in users)
+            {
+                var userVM = new EditProfileViewModel()
+                {
+                    Id = user.Id,
+                    Email = user.Email,
+                    ProfileUrl = user.ProfileUrl,
+                    Address = user.Address,
+                    City = user.City,
+                    PhoneNumber = user.PhoneNumber
+                };
+                userViewModels.Add(userVM);
+            }
+            return userViewModels;
+
+        }
+
+
+        public UserProfileViewModel? GetUserProfileById(string userId)
+        {
+            var user = _userManager.Users.FirstOrDefault(u => u.Id == userId);
+            if (user != null)
+            {
+                var viewModel = new UserProfileViewModel
+                {
+                    PersonalInfo = new PersonalInformation
+                    {
+                        FanName = string.Concat(user.FirstName, ' ', user.LastName),
+                        Email = user.Email,
+                        PhoneNumber = user.PhoneNumber
+                    },
+                    AccountInfo = new AccountInformation
+                    {
+                        City = user.City,
+                        Address = user.Address
+                    },
+                    ProfileImagePath = user.ProfileUrl
+                };
+                return viewModel;
+            }
+            else
+            {
+                return null;
+            }
+        }
+        public async Task<IdentityResult> UpdateUserProfileAsync(UserProfileViewModel model)
+        {
+            var user = await _userManager.FindByIdAsync(model.PersonalInfo.UserId);
+            if (user == null)
+            {
+                return IdentityResult.Failed(new IdentityError[] { new IdentityError { Description = "User not found." } });
+            }
+
+            user.ProfileUrl = model.ProfileImagePath;
+
+            return await _userManager.UpdateAsync(user);
+        }
+        public async Task<IdentityResult> UpdateUserProfilePersonalInfo(PersonalInformation model)
+        {
+            var user = await _userManager.Users.FirstOrDefaultAsync(u => u.Id == model.UserId);
+            if (user == null)
+            {
+                return IdentityResult.Failed(new IdentityError[] { new IdentityError { Description = "User not found." } });
+            }
+
+            user.FirstName = model.FanName.Split(' ')[0];
+            user.LastName = model.FanName.Split(' ')[1];
+            user.Email = model.Email;
+            user.PhoneNumber = model.PhoneNumber;
+
+            return await _userManager.UpdateAsync(user);
+        }
+        public async Task<IdentityResult> UpdateUserProfileAccountInfo(AccountInformation model, string userId)
+        {
+            var user = await _userManager.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            if (user == null)
+            {
+                return IdentityResult.Failed(new IdentityError[] { new IdentityError { Description = "User not found." } });
+            }
+            user.Address = model.Address;
+            user.City = model.City;
+            await _userManager.UpdateAsync(user);
+
+            bool found = await _userManager.CheckPasswordAsync(user, model.OldPassword);
+            if (!found)
+            {
+                return IdentityResult.Failed(new IdentityError[] { new IdentityError { Description = "Password is incorrect." } });
+            }
+            if (model.OldPassword != null)
+            {
+                var passwordChangeResult = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.Password);
+
+                if (passwordChangeResult.Succeeded)
+                {
+                    return passwordChangeResult;
+                }
+
+            }
+            return IdentityResult.Failed(new IdentityError[] { new IdentityError { Description = "Please enter password." } });
+
+        }
+    }
+}

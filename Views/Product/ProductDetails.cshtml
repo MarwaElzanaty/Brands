@@ -33,6 +33,7 @@
                 Rating: @Model.Rating
             </p>
 
+<<<<<<< HEAD
             <form method="post" asp-action="UserCartCheck" asp-controller="Cart">
                 <div class="mt-5">
                     <div class="row g-2">
@@ -53,11 +54,28 @@
                 </div>
             </form>
 
+@* =======
+            <div class="mt-5">
+                <div class="row g-2">
+                    <div class="col-4">
+                        <div class="input-group border border-dark rounded">
+                            <button class="btn btn-link text-dark text-decoration-none" type="button">-</button>
+                            <input type="text" class="form-control border-0 text-center bg-transparent" value="1">
+                            <button class="btn btn-link text-dark text-decoration-none" type="button">+</button>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <button class="btn btn-dark w-60 py-2 fw-bold text-uppercase">Add to cart</button>
+                    </div>
+                </div>
+            </div>
+>>>>>>> 6ac9e244d25a6e26fd79841a2ee910db92ba85d0 *@
 
         </div>
     </div>
 </div>
 
+@* <<<<<<< HEAD *@
 <script> 
     const counterInput = document.getElementById("counter");
 const increaseBtn = document.getElementById("increase");
@@ -67,4 +85,7 @@ decreaseBtn.addEventListener("click", () => { let currentValue = parseInt(counte
     { // optional: prevent going below 1 
         counterInput.value = currentValue - 1; } }); 
         </script>
+@* =======
+
+>>>>>>> 6ac9e244d25a6e26fd79841a2ee910db92ba85d0 *@
 

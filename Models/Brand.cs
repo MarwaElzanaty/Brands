@@ -9,5 +9,8 @@
         public DateTime CreatedAt { get; set; }
 
         public virtual List<Product>? Products { get; set; }
+        public int CategoryId { get; set; }
+        public virtual Category Category { get; set; }
+
     }
 }
