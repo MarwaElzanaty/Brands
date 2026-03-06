@@ -47,6 +47,16 @@ namespace LocalBrands.Data
                 new Product { Id = 14, Name = "Sport Shoes", Price = 2200, Description = "Comfortable for running", PictureUrl = "img2.jpg", Rating = 5, BrandId = 4, CategoryId = 1, SalesCount = 10, createdAt = DateTime.Parse("2026-02-22") },
                 new Product { Id = 15, Name = "Summer Cap", Price = 300, Description = "Stylish sun protection", PictureUrl = "img3.jpg", Rating = 3, BrandId = 5, CategoryId = 2, SalesCount = 50, createdAt = DateTime.Parse("2026-02-25") }
             );
+
+            modelBuilder.Entity<Review>().HasData(
+                new Review { Id = 1, Content = "Amazing quality and great fabric, highly recommended!", Rating = 5, CreatedAt = new DateTime(2026, 3, 6), UserId = "143f2d00-a63c-43b0-acab-f525e79c6bcf", ProductId = 1 },
+                new Review { Id = 2, Content = "Very good, but the delivery was slightly delayed.", Rating = 4, CreatedAt = new DateTime(2026, 3, 6), UserId = "143f2d00-a63c-43b0-acab-f525e79c6bcf", ProductId = 2 },
+                new Review { Id = 3, Content = "The design is beautiful and very comfortable to wear.", Rating = 5, CreatedAt = new DateTime(2026, 3, 6), UserId = "143f2d00-a63c-43b0-acab-f525e79c6bcf", ProductId = 3 },
+                new Review { Id = 4, Content = "Acceptable quality considering the price point.", Rating = 3, CreatedAt = new DateTime(2026, 3, 6), UserId = "143f2d00-a63c-43b0-acab-f525e79c6bcf", ProductId = 4 },
+                new Review { Id = 5, Content = "Proud to support local brands, world-class craftsmanship!", Rating = 5, CreatedAt = new DateTime(2026, 3, 6), UserId = "143f2d00-a63c-43b0-acab-f525e79c6bcf", ProductId = 5 },
+                new Review { Id = 6, Content = "Excellent experience, I will definitely buy again.", Rating = 5, CreatedAt = new DateTime(2026, 3, 6), UserId = "143f2d00-a63c-43b0-acab-f525e79c6bcf", ProductId = 6 }
+
+                );
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {   

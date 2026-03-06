@@ -1,4 +1,6 @@
-﻿namespace LocalBrands.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace LocalBrands.Models
 {
     public class Brand
     {
@@ -9,6 +11,7 @@
         public DateTime CreatedAt { get; set; }
 
         public virtual List<Product>? Products { get; set; }
+        [ForeignKey("Category")]
         public int CategoryId { get; set; }
         public virtual Category Category { get; set; }
 

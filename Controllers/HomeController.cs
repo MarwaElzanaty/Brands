@@ -23,7 +23,6 @@ public class HomeController : Controller
         return View(homeVM);
     }
 
-
     public IActionResult Privacy()
     {
         return View();
