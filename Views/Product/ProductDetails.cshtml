@@ -34,6 +34,28 @@
                 Rating: @Model.Rating
             </p>
 
+<<<<<<< HEAD
+            <form method="post" asp-action="UserCartCheck" asp-controller="Cart">
+                <div class="mt-5">
+                    <div class="row g-2">
+                        <div class="col-4">
+                            <input type="hidden" name="ProductId" value="@Model.Id" />
+                            <input type="hidden" name="UserId" value="b0cc7bbc-ead6-44f0-bf85-8e54ec7e95dc" />
+
+                            <div class="input-group border border-dark rounded">
+                                <button class="btn btn-link text-dark text-decoration-none" type="button" id="decrease">-</button>
+                                <input type="text" class="form-control border-0 text-center bg-transparent" value="1" id="counter" name="Quantity">
+                                <button class="btn btn-link text-dark text-decoration-none" type="button" id="increase">+</button>
+                            </div>
+                        </div>
+                        <div class="col-8">
+                            <button type="submit" class="btn btn-dark w-60 py-2 fw-bold text-uppercase">Add to cart</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+@* =======
             <div class="mt-5">
                 <div class="row g-2">
                     <div class="col-4">
@@ -48,11 +70,23 @@
                     </div>
                 </div>
             </div>
+>>>>>>> 6ac9e244d25a6e26fd79841a2ee910db92ba85d0 *@
 
         </div>
     </div>
 </div>
 
+@* <<<<<<< HEAD *@
+<script> 
+    const counterInput = document.getElementById("counter");
+const increaseBtn = document.getElementById("increase");
+const decreaseBtn = document.getElementById("decrease"); 
+increaseBtn.addEventListener("click", () => { counterInput.value = parseInt(counterInput.value) + 1; });
+decreaseBtn.addEventListener("click", () => { let currentValue = parseInt(counterInput.value); if (currentValue > 1) 
+    { // optional: prevent going below 1 
+        counterInput.value = currentValue - 1; } }); 
+        </script>
+@* =======
 
    @* users Reviews  *@
 
@@ -73,4 +107,5 @@
 
 
 
+>>>>>>> 6ac9e244d25a6e26fd79841a2ee910db92ba85d0 *@
 

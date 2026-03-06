@@ -15,8 +15,15 @@ namespace LocalBrands.Controllers
         public IActionResult ProductDetails(int id)
         {
             var product= HomeService.ProductByID(id);
-           
+            if (product == null)
+            {
+                return NotFound();
+            }
+//<<<<<<< HEAD
+            //return View("ProductDetails", product);
+//=======
             return View(product);
+//>>>>>>> 6ac9e244d25a6e26fd79841a2ee910db92ba85d0
         }
        
     }
