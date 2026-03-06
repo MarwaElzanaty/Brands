@@ -34,7 +34,7 @@ namespace LocalBrands.Data.Repository.Implementation
             var item = GetById(id);
             if (item != null)
             {
-                context.Remove(item);
+                context.Category.Remove(item);
             }
         }
         public void Save()

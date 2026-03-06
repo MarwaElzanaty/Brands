@@ -27,6 +27,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 })
 .AddEntityFrameworkStores<ApplicationDB>();
 
+
 builder.Services.AddScoped<IUserService, UserService>();
 
 
@@ -44,6 +45,9 @@ builder.Services.AddScoped<IRepository<Brand>>(sp => sp.GetRequiredService<Brand
 builder.Services.AddScoped<IHomeService, HomeService>();
 
 builder.Services.AddScoped<ICategoryRepo, CategoryRepo>();
+//builder.Services.AddScoped<IOrderRepo, OrderRepo>();
+//builder.Services.AddScoped<ICartRepo, CartRepo>();
+//builder.Services.AddScoped<ICartItemRepo, CartItemRepo>();
 
 
 

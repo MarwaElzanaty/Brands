@@ -13,5 +13,8 @@ namespace LocalBrands.Models
         public virtual ApplicationUser User { get; set; }
         public virtual List<OrderItem> OrderItems { get; set; }
         public Payment Payment { get; set; }
+        public string ShippingAddress { get; set; }
+        public string Notes { get; set; }
+        public string PhoneNumber { get; set; }
     }
 }

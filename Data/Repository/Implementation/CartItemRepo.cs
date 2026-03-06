@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LocalBrands.Data.Repository.Implementation
 {
-    public class CartItemRepo : ICartItemRepo,IRepository<CartItem>
+    public class CartItemRepo : ICartItemRepo //,IRepository<CartItem>
     {
         // Ref from context
         ApplicationDB context;
@@ -55,5 +55,12 @@ namespace LocalBrands.Data.Repository.Implementation
         {
             context.Update(entity);
         }
+        //public List<CartItem> GetByCartId(int cartId)
+        //{
+        //    return context.CartItem
+        //        .Include(ci => ci.Product)
+        //        .Where(ci => ci.CartId == cartId)
+        //        .ToList();
+        //}
     }
 }
