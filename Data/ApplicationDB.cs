@@ -18,6 +18,8 @@ namespace LocalBrands.Data
         public DbSet<OrderItem> OrderItem { get; set; }
         public DbSet<Product> Product { get; set; }
         public DbSet<Review> Review { get; set; }
+        public DbSet<Payment> Payment { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

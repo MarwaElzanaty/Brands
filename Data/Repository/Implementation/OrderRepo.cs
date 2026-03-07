@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LocalBrands.Data.Repository.Implementation
 {
-    public class OrderRepo : IOrderRepo, IRepository<Order>
+    public class OrderRepo : IOrderRepo
     {
         // Ref from context
         ApplicationDB context;

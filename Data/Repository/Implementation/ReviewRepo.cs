@@ -1,11 +1,12 @@
 ﻿using LocalBrands.Data;
 using LocalBrands.Data.Repository.Interfaces;
 using LocalBrands.Models;
+using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 
 namespace LocalBrands.Data.Repository.Implementation
 {
-    public class ReviewRepo : IReviewRepo,IRepository<Review>
+    public class ReviewRepo : IReviewRepo
     {
         // Ref from context
         ApplicationDB context;
@@ -41,9 +42,16 @@ namespace LocalBrands.Data.Repository.Implementation
             return reviews;
         }
 
+        public List<Review> GetAllByProdId(int Product_id)
+        {
+            List<Review> reviews = new List<Review>();
+            reviews = context.Review.Include(u => u.User)
+                .Where(p => p.ProductId == Product_id).ToList();
+            return reviews;
+        }
         public Review? GetById(int id)
         {
-            return context.Review.SingleOrDefault(r => r.Id == id);
+            return context.Review.FirstOrDefault(r => r.Id == id);
         }
 
         public void Update(Review entity)

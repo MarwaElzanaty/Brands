@@ -7,8 +7,8 @@ namespace LocalBrands.Services.Implementation
     public class HomeService :IHomeService
     {
         // dependency injection
-        IRepository<Product> productRepo;
-        public HomeService(IRepository<Product> productRepo)
+        IProductRepo productRepo;
+        public HomeService(IProductRepo productRepo)
         {
             this.productRepo = productRepo;
         }

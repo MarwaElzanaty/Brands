@@ -1,30 +1,39 @@
 ﻿using LocalBrands.Models;
 using LocalBrands.Services.Interfaces;
+using LocalBrands.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace LocalBrands.Controllers
 {
     public class ProductController : Controller
     {
         IHomeService HomeService;
-        public ProductController(IHomeService homeService)
+        IReviewService ReviewService;
+        IOrderService OrderService;
+        public ProductController(IHomeService homeService, IReviewService reviewService, IOrderService orderService)
         {
             HomeService = homeService;
+            ReviewService = reviewService;
+            OrderService = orderService;
         }       
        // /Product/ProductDetails/4
         public IActionResult ProductDetails(int id)
         {
-            var product= HomeService.ProductByID(id);
-            if (product == null)
+            ProductDetailsViewModel ProdViewModel = new ProductDetailsViewModel();
+            ProdViewModel.Product= HomeService.ProductByID(id);
+            // Logic Of Reviews:
+            ProdViewModel.Reviews= ReviewService.GetReviewsOfOneProduct(id);
+
+            // Logic of : if User made an order ,then he can make Review:
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId != null)
             {
-                return NotFound();
+                ProdViewModel.CanLeaveReview = OrderService.HasUserPurchasedProduct(userId, id);
             }
-//<<<<<<< HEAD
-            //return View("ProductDetails", product);
-//=======
-            return View(product);
-//>>>>>>> 6ac9e244d25a6e26fd79841a2ee910db92ba85d0
+            return View(ProdViewModel); 
+            
         }
-       
+
     }
 }

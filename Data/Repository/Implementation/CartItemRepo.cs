@@ -2,30 +2,36 @@
 using LocalBrands.Data.Repository.Interfaces;
 using LocalBrands.Models;
 using Microsoft.EntityFrameworkCore;
-
+using System.Security.Cryptography;
 namespace LocalBrands.Data.Repository.Implementation
 {
     public class CartItemRepo : ICartItemRepo
     {
-        // Ref from context
-        ApplicationDB context;
-
-        // context injected 
+        private readonly ApplicationDB context;
         public CartItemRepo(ApplicationDB context)
         {
             this.context = context;
         }
-
-        // crud operations
+        // CRUD operations
         public void Add(CartItem entity)
         {
-            context.CartItem.Add(entity);
+            var existingItem = context.CartItem
+                            .FirstOrDefault(ci => ci.CartId == entity.CartId && ci.ProductId == entity.ProductId);
+            if (existingItem == null)
+            {
+                context.CartItem.Add(entity);
+            }
+            else
+            {
+                existingItem.Quantity = entity.Quantity;
+                existingItem.AddedAt = DateTime.Now;
+                context.CartItem.Update(existingItem);
+            }
         }
         public void Delete(CartItem entity)
         {
             context.Remove(entity);
         }
-
         public void DeleteById(int id)
         {
             var item = GetById(id);
@@ -36,30 +42,37 @@ namespace LocalBrands.Data.Repository.Implementation
         }
         public List<CartItem> GetAll()
         {
-           List<CartItem> cartItems = new List<CartItem>();
-            cartItems= context.CartItem.Include(c=>c.Cart).Include(c=>c.Product).ToList();
-            return cartItems;
+            return context.CartItem
+            .Include(c => c.Cart)
+            .Include(c => c.Product)
+            .ToList();
         }
-        // user defined
-
-        public List<CartItem> GetAllIteam(int CartID)
+        public List<CartItem> GetAllIteam(int cartId)
         {
-            List<CartItem> cartItems = new List<CartItem>();
-            cartItems = context.CartItem.Where(item => item.CartId==CartID).Include(item=> item.Product).ThenInclude(p => p.Brand).ToList();
-            return cartItems;
-
+            return context.CartItem
+            .Where(item => item.CartId == cartId)
+            .Include(item => item.Product)
+            .ThenInclude(p => p.Brand)
+            .ToList();
         }
         public CartItem? GetById(int id)
         {
-            return context.CartItem.SingleOrDefault(d => d.Id == id);
+            return context.CartItem.FirstOrDefault(d => d.Id== id);
         }
-        public CartItem GetByProductIDCartID(int productID, int cartID)
+        public CartItem? GetByProductIDCartID(int productId,int cartId)
         {
-            return context.CartItem.SingleOrDefault(item => item.CartId==cartID && item.ProductId==productID);
+             return context.CartItem
+                .FirstOrDefault(item => item.CartId == cartId && item.ProductId == productId);
         }
         public void Save()
         {
             context.SaveChanges();
+        }   
+        public List<CartItem> GetByCartId(int cartId)
+        {
+            return context.CartItem
+            .Include(ci => ci.Product)
+            .Where(ci => ci.CartId == cartId).ToList();
         }
 
         public void Update(CartItem entity)

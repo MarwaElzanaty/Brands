@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LocalBrands.Data.Repository.Implementation
 {
-    public class BrandRepo : IBrandRepo, IRepository<Brand>
+    public class BrandRepo : IBrandRepo
     {
         // Ref from context
         ApplicationDB context;

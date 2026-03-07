@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LocalBrands.Data.Repository.Implementation
 {
-    public class CategoryRepo : ICategoryRepo //IRepository<Category>
+    public class CategoryRepo : ICategoryRepo 
     {
         private readonly ApplicationDB context;
         public CategoryRepo(ApplicationDB context)

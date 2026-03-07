@@ -1,97 +1,78 @@
-﻿using LocalBrands.Data.Repository;
-using LocalBrands.Data.Repository.Implementation;
+﻿using LocalBrands.Data.Repository.Implementation;
 using LocalBrands.Data.Repository.Interfaces;
 using LocalBrands.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis;
-
+using System.Security.Claims;
 namespace LocalBrands.Controllers
 {
     public class CartController : Controller
     {
         private readonly ICartRepo _cartRepo;
         private readonly ICartItemRepo _cartItemRepo;
-
-        public CartController(ICartRepo CartClass, ICartItemRepo cartItemRepo)
+        public CartController(ICartRepo cartRepo, ICartItemRepo cartItemRepo)
         {
-            _cartRepo = CartClass;
+            _cartRepo = cartRepo;
             _cartItemRepo = cartItemRepo;
         }
-        public IActionResult Index(string UserID)
+        public IActionResult Index()
         {
-           Cart cart =_cartRepo.GetByIdString(UserID);
-
-            List<CartItem> lst=_cartItemRepo.GetAllIteam(cart.Id);
-
-            return View("index",lst);
-        }
-
-        // check if user have car or no
-        public IActionResult UserCartCheck(string Userid,int productID,int Quantity)
-        {
-           
-
-           
-            Cart cart = new Cart();
-           
-
-
-            if (_cartRepo.GetByIdString(Userid) == null )
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var cart = _cartRepo.GetByIdString(userId);
+            if (cart == null)
             {
-                
-                cart.UserId = Userid;
+                cart = new Cart { UserId = userId };
                 _cartRepo.Add(cart);
                 _cartRepo.Save();
             }
-             
-            cart = _cartRepo.GetByIdString(Userid);
-            CartItem item = new CartItem();
-            if(_cartItemRepo.GetByProductIDCartID(productID, cart.Id) != null)
+            var lst = _cartItemRepo.GetAllIteam(cart.Id);
+            return View("Index", lst);
+        }
+        public IActionResult UserCartCheck(int productID, int Quantity)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var cart = _cartRepo.GetByIdString(userId);
+            if (cart == null)
             {
-                item = _cartItemRepo.GetByProductIDCartID(productID, cart.Id);
-                item.CartId = cart.Id;
-                item.ProductId = productID;
+                cart = new Cart { UserId = userId };
+                _cartRepo.Add(cart);
+                _cartRepo.Save();
+            }
+            var item = _cartItemRepo.GetByProductIDCartID(productID, cart.Id);
+            if (item != null)
+            {
                 item.Quantity = Quantity;
                 item.AddedAt = DateTime.Now;
                 _cartItemRepo.Update(item);
                 _cartItemRepo.Save();
-
             }
             else
             {
-                item.CartId = cart.Id;
-                item.ProductId = productID;
-                item.Quantity = Quantity;
-                item.AddedAt = DateTime.Now;
-                _cartItemRepo.Add(item);
+                var newItem = new CartItem
+                {
+                    CartId = cart.Id,
+                    ProductId = productID,
+                    Quantity = Quantity,
+                    AddedAt = DateTime.Now
+                };
+                _cartItemRepo.Add(newItem);
                 _cartItemRepo.Save();
             }
-            
-           
-
-
-
-            return RedirectToAction("index","Home");
+            return RedirectToAction("Index");
         }
-
-
-        public IActionResult Modifiy(string Userid, int productID, int Quantity)
+        public IActionResult Modifiy(int productID, int Quantity)
         {
-            CartItem item = new CartItem();
-            Cart cart = _cartRepo.GetByIdString(Userid);
-            item = _cartItemRepo.GetByProductIDCartID(productID, cart.Id);
-            item.CartId = cart.Id;
-            item.ProductId = productID;
-            item.Quantity = Quantity;
-            item.AddedAt = DateTime.Now;
-            _cartItemRepo.Update(item);
-            _cartItemRepo.Save();
-
-
-            return RedirectToAction("Index", new { UserID = "b0cc7bbc-ead6-44f0-bf85-8e54ec7e95dc" });
+            
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var cart = _cartRepo.GetByIdString(userId);
+            var item = _cartItemRepo.GetByProductIDCartID(productID, cart.Id);
+            if (item != null)
+            {
+                item.Quantity = Quantity;
+                item.AddedAt = DateTime.Now;
+                _cartItemRepo.Update(item);
+                _cartItemRepo.Save();
+            }
+            return RedirectToAction("Index");
         }
-
-
-
     }
 }

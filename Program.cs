@@ -4,14 +4,8 @@ using LocalBrands.Data.Repository.Interfaces;
 using LocalBrands.Models;
 using LocalBrands.Services.Implementation;
 using LocalBrands.Services.interfaces;
-
-//<<<<<<< HEAD
 using LocalBrands.Services.Interfaces;
-//=======
-//using LocalBrands.Services.interfaces;
-//using LocalBrands.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
-//>>>>>>> 6ac9e244d25a6e26fd79841a2ee910db92ba85d0
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -33,36 +27,28 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 })
 .AddEntityFrameworkStores<ApplicationDB>();
 
-builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IUserService, UserService>();
 
 
-
-// custom services for Repositories :
-builder.Services.AddScoped<ProductRepo>();
-builder.Services.AddScoped<ReviewRepo>();
-builder.Services.AddScoped<BrandRepo>();
+// Register Repositories ::
+builder.Services.AddScoped<IProductRepo, ProductRepo>();
+builder.Services.AddScoped<IReviewRepo, ReviewRepo>();
+builder.Services.AddScoped<IBrandRepo, BrandRepo>();
+builder.Services.AddScoped<ICategoryRepo, CategoryRepo>();
 builder.Services.AddScoped<ICartRepo, CartRepo>();
 builder.Services.AddScoped<ICartItemRepo, CartItemRepo>();
+builder.Services.AddScoped<IOrderRepo, OrderRepo>();
 
-builder.Services.AddScoped<IProductRepo>(sp=>sp.GetRequiredService<ProductRepo>());
-builder.Services.AddScoped<IRepository<Product>>(sp=>sp.GetRequiredService<ProductRepo>());
-builder.Services.AddScoped<IReviewRepo>(sp => sp.GetRequiredService<ReviewRepo>());
-builder.Services.AddScoped<IRepository<Review>>(sp => sp.GetRequiredService<ReviewRepo>());
-builder.Services.AddScoped<IBrandRepo>(sp => sp.GetRequiredService<BrandRepo>());
-builder.Services.AddScoped<IRepository<Brand>>(sp => sp.GetRequiredService<BrandRepo>());
+
+// Register Services::
 builder.Services.AddScoped<IHomeService, HomeService>();
-//<<<<<<< HEAD
-//=======
-builder.Services.AddScoped<ICategoryRepo, CategoryRepo>();
-
-//>>>>>>> 6ac9e244d25a6e26fd79841a2ee910db92ba85d0
+builder.Services.AddScoped<IReviewService,ReviewService>();
+builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 
 
 
-
-//
+// Build 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
