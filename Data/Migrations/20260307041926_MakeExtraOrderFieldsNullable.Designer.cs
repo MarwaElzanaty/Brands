@@ -4,6 +4,7 @@ using LocalBrands.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LocalBrands.Migrations
 {
     [DbContext(typeof(ApplicationDB))]
-    partial class ApplicationDBModelSnapshot : ModelSnapshot
+    [Migration("20260307041926_MakeExtraOrderFieldsNullable")]
+    partial class MakeExtraOrderFieldsNullable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -315,14 +318,22 @@ namespace LocalBrands.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Method")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("PaymentDate")
+                    b.Property<DateTime>("PaymentDate")
                         .HasColumnType("datetime2");
 
                     b.HasKey("OrderId");
 
-                    b.ToTable("Payment", (string)null);
+                    b.ToTable("Order", null, t =>
+                        {
+                            t.Property("Method")
+                                .HasColumnName("Payment_Method");
+
+                            t.Property("PaymentDate")
+                                .HasColumnName("PaymentDate1");
+                        });
                 });
 
             modelBuilder.Entity("LocalBrands.Models.Product", b =>

@@ -29,12 +29,16 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 
 
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IUserService, UserService>();
+
 
 
 // custom services for Repositories :
 builder.Services.AddScoped<ProductRepo>();
 builder.Services.AddScoped<ReviewRepo>();
 builder.Services.AddScoped<BrandRepo>();
+builder.Services.AddScoped<ICartRepo, CartRepo>();
+builder.Services.AddScoped<ICartItemRepo, CartItemRepo>();
 
 builder.Services.AddScoped<IProductRepo>(sp=>sp.GetRequiredService<ProductRepo>());
 builder.Services.AddScoped<IRepository<Product>>(sp=>sp.GetRequiredService<ProductRepo>());
@@ -45,9 +49,12 @@ builder.Services.AddScoped<IRepository<Brand>>(sp => sp.GetRequiredService<Brand
 builder.Services.AddScoped<IHomeService, HomeService>();
 
 builder.Services.AddScoped<ICategoryRepo, CategoryRepo>();
-//builder.Services.AddScoped<IOrderRepo, OrderRepo>();
-//builder.Services.AddScoped<ICartRepo, CartRepo>();
-//builder.Services.AddScoped<ICartItemRepo, CartItemRepo>();
+
+builder.Services.AddScoped<IOrderRepo, OrderRepo>();
+builder.Services.AddScoped<ICartRepo, CartRepo>();
+builder.Services.AddScoped<ICartItemRepo, CartItemRepo>();
+
+builder.Services.AddScoped<IOrderItemRepo, OrderItemRepo>();
 
 
 

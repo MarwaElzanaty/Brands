@@ -5,21 +5,26 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LocalBrands.Data.Repository.Implementation
 {
-    public class CartRepo : ICartRepo //, IRepository<Cart>
+    public class CartRepo : ICartRepo
     {
-        // Ref from context
-        ApplicationDB context;
+        private readonly ApplicationDB context;
 
-        // context injected 
         public CartRepo(ApplicationDB context)
         {
             this.context = context;
         }
-        //crud operation
+
+        // Add Cart (مع منع التكرار)
         public void Add(Cart entity)
         {
-            context.Add(entity);
+            var existingCart = context.Cart.FirstOrDefault(c => c.UserId == entity.UserId);
+            if (existingCart == null)
+            {
+                context.Cart.Add(entity);
+            }
+            // لو فيه كارت موجود بالفعل لنفس الـ UserId، مش بنضيف جديد
         }
+
         public void Delete(Cart entity)
         {
             context.Remove(entity);
@@ -36,14 +41,22 @@ namespace LocalBrands.Data.Repository.Implementation
 
         public List<Cart> GetAll()
         {
-            List<Cart> list = new List<Cart>();
-            list= context.Cart.Include(u=>u.User).Include(u=>u.CartItems).ToList();
-            return list;
+            return context.Cart
+                .Include(u => u.User)
+                .Include(u => u.CartItems)
+                .ToList();
         }
 
         public Cart? GetById(int id)
         {
-            return context.Cart.SingleOrDefault(c => c.Id == id);
+            // استخدم FirstOrDefault بدل SingleOrDefault
+            return context.Cart.FirstOrDefault(c => c.UserId == id.ToString());
+        }
+
+        public Cart? GetByIdString(string id)
+        {
+            // استخدم FirstOrDefault بدل SingleOrDefault
+            return context.Cart.FirstOrDefault(c => c.UserId == id);
         }
 
         public void Save()
@@ -55,12 +68,14 @@ namespace LocalBrands.Data.Repository.Implementation
         {
             context.Update(entity);
         }
-        //public Cart? GetByUserId(string userId)
-        //{
-        //    return context.Cart
-        //        .Include(c => c.CartItems)
-        //        .ThenInclude(ci => ci.Product)
-        //        .SingleOrDefault(c => c.UserId == userId);
-        //}
+
+        public Cart? GetByUserId(string userId)
+        {
+            // استخدم FirstOrDefault بدل SingleOrDefault
+            return context.Cart
+                .Include(c => c.CartItems)
+                .ThenInclude(ci => ci.Product)
+                .FirstOrDefault(c => c.UserId == userId);
+        }
     }
 }

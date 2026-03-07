@@ -1,0 +1,66 @@
+﻿@model LocalBrands.ViewModels.OrderCreateViewModel
+@{
+    ViewData["Title"] = "Complete Your Order";
+}
+
+<div class="container mt-5">
+    <div class="card shadow-lg">
+        <div class="card-header bg-primary text-white">
+            <h3>Complete Your Order</h3>
+        </div>
+        <div class="card-body">
+            <form asp-action="Create" method="post">
+                <!-- Shipping Address -->
+                <div class="form-group mb-3">
+                    <label asp-for="ShippingAddress" class="form-label">
+                        <i class="bi bi-house-door"></i> Shipping Address
+                    </label>
+                    <input asp-for="ShippingAddress" class="form-control" placeholder="Enter your address" />
+                    <span asp-validation-for="ShippingAddress" class="text-danger"></span>
+                </div>
+
+                <!-- Phone Number -->
+                <div class="form-group mb-3">
+                    <label asp-for="PhoneNumber" class="form-label">
+                        <i class="bi bi-telephone"></i> Phone Number
+                    </label>
+                    <input asp-for="PhoneNumber" class="form-control" placeholder="Enter your phone number" />
+                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                </div>
+
+                <!-- Notes -->
+                <div class="form-group mb-3">
+                    <label asp-for="Notes" class="form-label">
+                        <i class="bi bi-pencil-square"></i> Notes
+                    </label>
+                    <textarea asp-for="Notes" class="form-control" placeholder="Additional notes"></textarea>
+                    <span asp-validation-for="Notes" class="text-danger"></span>
+                </div>
+
+                <!-- Payment Method -->
+                <div class="form-group mb-3">
+                    <label asp-for="PaymentMethod" class="form-label">
+                        <i class="bi bi-credit-card"></i> Payment Method
+                    </label>
+                    <select asp-for="PaymentMethod" class="form-select">
+                        <option value="">-- Select Payment Method --</option>
+                        <option value="CreditCard">Credit Card</option>
+                        <option value="Wallet">Wallet / Installments</option>
+                        <option value="COD">Cash on Delivery</option>
+                    </select>
+                    <span asp-validation-for="PaymentMethod" class="text-danger"></span>
+                </div>
+
+                <!-- Submit -->
+                <button type="submit" class="btn btn-success w-100 fw-bold">
+                    <i class="bi bi-check-circle"></i> Confirm Order
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script>
+}

@@ -16,5 +16,9 @@ namespace LocalBrands.Models
         public string ShippingAddress { get; set; }
         public string Notes { get; set; }
         public string PhoneNumber { get; set; }
+        public string PaymentMethod { get; set; }
+        public DateTime? PaymentDate { get; set; }
+        public int? Method { get; set; }
+        public string? StripeSessionId { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿@model Product
+﻿@using System.Security.Claims
+@model Product
 @{
     ViewData["Title"] = "ProductDetails";
 }
@@ -8,8 +9,8 @@
 <div class="row gx-lg-5">
     <div class="col-md-6 mb-4">
         <div class="card border-0 shadow-sm overflow-hidden">
-            <img src="~/images/@Model.PictureUrl" class="img-fluid w-100 "
-                 alt="@Model.Name" style="object-fit: cover; height:500px  !important">
+            <img src="~/images/@Model.PictureUrl" class="img-fluid w-100"
+                 alt="@Model.Name" style="object-fit: cover; height:500px !important">
         </div>
     </div>
 
@@ -18,12 +19,13 @@
             <h1 class="display-6 fw-bold mb-2">@Model.Name</h1>
 
             <p class="text-muted mb-4" style="line-height: 1.8;">
-                Description:  @Model.Description
+                Description: @Model.Description
             </p>
 
             <p class="text-primary mb-4" style="line-height: 1.8;">
                 Brand Name: @Model.Brand.Name
             </p>
+
             <div class="d-flex align-items-center mb-3">
                 <span class="fs-4 fw-bold text-warning me-3">@Model.Price.ToString("N2") EGP</span>
                 <span class="badge bg-light text-dark border p-2"> Sold: @Model.SalesCount</span>
@@ -33,24 +35,44 @@
                 Rating: @Model.Rating
             </p>
 
-            <div class="mt-5">
-                <div class="row g-2">
-                    <div class="col-4">
-                        <div class="input-group border border-dark rounded">
-                            <button class="btn btn-link text-dark text-decoration-none" type="button">-</button>
-                            <input type="text" class="form-control border-0 text-center bg-transparent" value="1">
-                            <button class="btn btn-link text-dark text-decoration-none" type="button">+</button>
+            <!-- Form لإضافة المنتج للكارت -->
+            <form method="post" asp-action="UserCartCheck" asp-controller="Cart">
+                <div class="mt-5">
+                    <div class="row g-2">
+                        <div class="col-4">
+                            <input type="hidden" name="ProductId" value="@Model.Id" />
+                            <!-- دلوقتي الـ UserId بيتجاب من الـ Identity -->
+                            <input type="hidden" name="UserId" value="@User.FindFirstValue(System.Security.Claims.ClaimTypes.NameIdentifier)" />
+
+                            <div class="input-group border border-dark rounded">
+                                <button class="btn btn-link text-dark text-decoration-none" type="button" id="decrease">-</button>
+                                <input type="text" class="form-control border-0 text-center bg-transparent" value="1" id="counter" name="Quantity">
+                                <button class="btn btn-link text-dark text-decoration-none" type="button" id="increase">+</button>
+                            </div>
+                        </div>
+                        <div class="col-8">
+                            <button type="submit" class="btn btn-dark w-60 py-2 fw-bold text-uppercase">Add to cart</button>
                         </div>
                     </div>
-                    <div class="col-8">
-                        <button class="btn btn-dark w-60 py-2 fw-bold text-uppercase">Add to cart</button>
-                    </div>
                 </div>
-            </div>
-
+            </form>
         </div>
     </div>
 </div>
 
+<script>
+    const counterInput = document.getElementById("counter");
+    const increaseBtn = document.getElementById("increase");
+    const decreaseBtn = document.getElementById("decrease");
 
+    increaseBtn.addEventListener("click", () => {
+        counterInput.value = parseInt(counterInput.value) + 1;
+    });
 
+    decreaseBtn.addEventListener("click", () => {
+        let currentValue = parseInt(counterInput.value);
+        if (currentValue > 1) {
+            counterInput.value = currentValue - 1;
+        }
+    });
+</script>

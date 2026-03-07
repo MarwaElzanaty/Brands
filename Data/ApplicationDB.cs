@@ -19,13 +19,15 @@ namespace LocalBrands.Data
         public DbSet<Product> Product { get; set; }
         public DbSet<Review> Review { get; set; }
 
+        public DbSet<Payment> Payment { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Order>().HasOne(o => o.Payment).WithOne(p => p.Order)
            .HasForeignKey<Payment>(p => p.OrderId);
 
             modelBuilder.Entity<Order>().ToTable("Order");
-            modelBuilder.Entity<Payment>().ToTable("Order");
+            modelBuilder.Entity<Payment>().ToTable("Payment");
             modelBuilder.Entity<Order>().Property(o => o.TotalAmount).HasColumnType("decimal(18,2)");
             modelBuilder.Entity<Payment>().Property(p => p.Amount).HasColumnType("decimal(18,2)");
             modelBuilder.Entity<OrderItem>().Property(o => o.PriceAtPurchase).HasColumnType("decimal(18,2)");

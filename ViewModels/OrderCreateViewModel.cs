@@ -14,5 +14,8 @@ namespace LocalBrands.ViewModels
 
         [StringLength(500, ErrorMessage = "Notes cannot exceed 500 characters")]
         public string Notes { get; set; }
+        [Required(ErrorMessage = "Payment method is required")]
+        public string PaymentMethod { get; set; }   // مثلاً: "CreditCard", "Wallet", "COD"
+
     }
 }
