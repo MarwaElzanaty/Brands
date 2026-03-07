@@ -20,9 +20,6 @@ namespace LocalBrands.Data
         public DbSet<Review> Review { get; set; }
         public DbSet<Payment> Payment { get; set; }
 
-
-        public DbSet<Payment> Payment { get; set; }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Order>().HasOne(o => o.Payment).WithOne(p => p.Order)

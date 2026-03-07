@@ -6,9 +6,5 @@ namespace LocalBrands.Data.Repository.Interfaces
     {
         public Cart? GetByIdString(string id);
         public Cart? GetByUserId(string userId);
-<<<<<<< HEAD
-=======
-
->>>>>>> 3e6609e20bbaee3eea91a9662c1e90e2fed8f240
     }
 }
