@@ -1,0 +1,63 @@
+﻿@model IEnumerable<LocalBrands.Models.Order>
+@{
+    ViewData["Title"] = "My Orders";
+}
+
+<div class="container mt-5">
+    <div class="card shadow-lg">
+        <div class="card-header bg-primary text-white">
+            <h3>My Orders</h3>
+        </div>
+        <div class="card-body">
+            @if (!Model.Any())
+            {
+                <div class="alert alert-info">
+                    You have no orders yet. Start shopping to place your first order!
+                </div>
+            }
+            else
+            {
+                <table class="table table-hover align-middle">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Total</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var order in Model)
+                        {
+                            <tr>
+                                <td>@order.Id</td>
+                                <td>@order.OrderDate.ToString("dd/MM/yyyy")</td>
+                                <td>
+                                    <span class="badge
+                                                @(order.Status == "Pending" ? "bg-warning text-dark" :
+                                                                                    order.Status == "Confirmed" ? "bg-info text-dark" :
+                                                                                    order.Status == "Completed" ? "bg-success" : "bg-secondary")">
+                                        @order.Status
+                                    </span>
+                                </td>
+                                <td>@order.TotalAmount.ToString("C")</td>
+                                <td>
+                                    <a asp-action="Details" asp-route-id="@order.Id" class="btn btn-outline-info btn-sm me-2">
+                                        <i class="bi bi-eye"></i> Details
+                                    </a>
+                                    @if (order.Status == "Pending" || order.Status == "Confirmed")
+                                    {
+                                        <a asp-action="Edit" asp-route-id="@order.Id" class="btn btn-outline-warning btn-sm me-2">
+                                            <i class="bi bi-pencil"></i> Edit
+                                        </a>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+</div>

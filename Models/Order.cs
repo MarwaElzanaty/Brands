@@ -13,5 +13,12 @@ namespace LocalBrands.Models
         public virtual ApplicationUser User { get; set; }
         public virtual List<OrderItem> OrderItems { get; set; }
         public Payment Payment { get; set; }
+        public string ShippingAddress { get; set; }
+        public string Notes { get; set; }
+        public string PhoneNumber { get; set; }
+        public string PaymentMethod { get; set; }
+        public DateTime? PaymentDate { get; set; }
+        public int? Method { get; set; }
+        public string? StripeSessionId { get; set; }
     }
 }

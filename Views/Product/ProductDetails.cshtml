@@ -1,4 +1,9 @@
+<<<<<<< HEAD
 ﻿@model LocalBrands.ViewModels.ProductDetailsViewModel
+=======
+﻿@using System.Security.Claims
+@model Product
+>>>>>>> 3e6609e20bbaee3eea91a9662c1e90e2fed8f240
 @{
     ViewData["Title"] = "ProductDetails";
 }
@@ -6,12 +11,40 @@
 <div class="container mt-5">
     <h1 class="text-center mb-5 fw-bold">Product Details</h1>
 
+<<<<<<< HEAD
     <div class="row gx-lg-5">
         @* القسم الأيسر: الصورة والمراجعات *@
         <div class="col-md-6 mb-4">
             <div class="card border-0 shadow-sm overflow-hidden mb-4 rounded-4">
                 <img src="~/images/@Model.Product.PictureUrl" class="img-fluid w-100"
                      alt="@Model.Product.Name" style="object-fit: cover; height:500px !important">
+=======
+<h1 class="text-center">Product Details: </h1>
+
+<div class="row gx-lg-5">
+    <div class="col-md-6 mb-4">
+        <div class="card border-0 shadow-sm overflow-hidden">
+            <img src="~/images/@Model.PictureUrl" class="img-fluid w-100"
+                 alt="@Model.Name" style="object-fit: cover; height:500px !important">
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="product-details p-2">
+            <h1 class="display-6 fw-bold mb-2">@Model.Name</h1>
+
+            <p class="text-muted mb-4" style="line-height: 1.8;">
+                Description: @Model.Description
+            </p>
+
+            <p class="text-primary mb-4" style="line-height: 1.8;">
+                Brand Name: @Model.Brand.Name
+            </p>
+
+            <div class="d-flex align-items-center mb-3">
+                <span class="fs-4 fw-bold text-warning me-3">@Model.Price.ToString("N2") EGP</span>
+                <span class="badge bg-light text-dark border p-2"> Sold: @Model.SalesCount</span>
+>>>>>>> 3e6609e20bbaee3eea91a9662c1e90e2fed8f240
             </div>
 
             @* صندوق المراجعات *@
@@ -26,6 +59,7 @@
                     </h5>
                 </div>
 
+<<<<<<< HEAD
                 @if (Model.Reviews != null && Model.Reviews.Any())
                 {
                     @foreach (var item in Model.Reviews)
@@ -58,6 +92,16 @@
                         <p class="text-muted mt-2">No reviews yet for this product.</p>
                     </div>
                 }
+=======
+            <!-- Form لإضافة المنتج للكارت -->
+            <form method="post" asp-action="UserCartCheck" asp-controller="Cart">
+                <div class="mt-5">
+                    <div class="row g-2">
+                        <div class="col-4">
+                            <input type="hidden" name="ProductId" value="@Model.Id" />
+                            <!-- دلوقتي الـ UserId بيتجاب من الـ Identity -->
+                            <input type="hidden" name="UserId" value="@User.FindFirstValue(System.Security.Claims.ClaimTypes.NameIdentifier)" />
+>>>>>>> 3e6609e20bbaee3eea91a9662c1e90e2fed8f240
 
                 @* فورم إضافة مراجعة - تظهر فقط لمن اشترى *@
                 @if (Model.CanLeaveReview)
@@ -135,24 +179,28 @@
                             </div>
                         </div>
                     </div>
+<<<<<<< HEAD
                 </form>
             </div>
+=======
+                </div>
+            </form>
+>>>>>>> 3e6609e20bbaee3eea91a9662c1e90e2fed8f240
         </div>
     </div>
 </div>
 
+<<<<<<< HEAD
 
 <script> 
+=======
+<script>
+>>>>>>> 3e6609e20bbaee3eea91a9662c1e90e2fed8f240
     const counterInput = document.getElementById("counter");
-const increaseBtn = document.getElementById("increase");
-const decreaseBtn = document.getElementById("decrease"); 
-increaseBtn.addEventListener("click", () => { counterInput.value = parseInt(counterInput.value) + 1; });
-decreaseBtn.addEventListener("click", () => { let currentValue = parseInt(counterInput.value); if (currentValue > 1) 
-    { // optional: prevent going below 1 
-        counterInput.value = currentValue - 1; } }); 
-        </script>
-@* =======
+    const increaseBtn = document.getElementById("increase");
+    const decreaseBtn = document.getElementById("decrease");
 
+<<<<<<< HEAD
 @* users Reviews  *@
 
 
@@ -168,4 +216,16 @@ decreaseBtn.addEventListener("click", () => { let currentValue = parseInt(counte
 
 
 
+=======
+    increaseBtn.addEventListener("click", () => {
+        counterInput.value = parseInt(counterInput.value) + 1;
+    });
+>>>>>>> 3e6609e20bbaee3eea91a9662c1e90e2fed8f240
 
+    decreaseBtn.addEventListener("click", () => {
+        let currentValue = parseInt(counterInput.value);
+        if (currentValue > 1) {
+            counterInput.value = currentValue - 1;
+        }
+    });
+</script>

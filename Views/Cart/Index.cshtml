@@ -1,20 +1,16 @@
-﻿@model List<CartItem> 
+﻿@model List<CartItem>
 @{
     ViewData["Title"] = "Index";
-   
     List<Product> lst2 = @Model.Select(m => m.Product).ToList();
-
 }
 
-
-@foreach ( var item in @Model)
+@foreach (var item in @Model)
 {
-
-    <div class="row gx-lg-5">
+    <div class="row gx-lg-5 mb-5">
         <div class="col-md-6 mb-4">
             <div class="card border-0 shadow-sm overflow-hidden">
-                <img src="~/images/@item.Product.PictureUrl" class="img-fluid w-100 "
-                     alt="@item.Product.Name" style="object-fit: cover; height:500px  !important">
+                <img src="~/images/@item.Product.PictureUrl" class="img-fluid w-100"
+                     alt="@item.Product.Name" style="object-fit: cover; height:500px !important">
             </div>
         </div>
 
@@ -23,12 +19,13 @@
                 <h1 class="display-6 fw-bold mb-2">@item.Product.Name</h1>
 
                 <p class="text-muted mb-4" style="line-height: 1.8;">
-                    Description:  @item.Product.Description
+                    Description: @item.Product.Description
                 </p>
 
                 <p class="text-primary mb-4" style="line-height: 1.8;">
                     Brand Name: @item.Product.Brand.Name
                 </p>
+
                 <div class="d-flex align-items-center mb-3">
                     <span class="fs-4 fw-bold text-warning me-3">@item.Product.Price.ToString("N2") EGP</span>
                     <span class="badge bg-light text-dark border p-2"> Sold: @item.Product.SalesCount</span>
@@ -46,29 +43,37 @@
                                 <input type="hidden" name="UserId" value="b0cc7bbc-ead6-44f0-bf85-8e54ec7e95dc" />
 
                                 <div class="input-group border border-dark rounded">
-                                    <button class="btn btn-link text-dark text-decoration-none decrease" type="button" id="decrease">-</button>
-                                    <input type="text" class="form-control border-0 text-center bg-transparent counter" value="@item.Quantity" id="counter" name="Quantity">
-                                    <button class="btn btn-link text-dark text-decoration-none increase" type="button" id="increase">+</button>
+                                    <button class="btn btn-link text-dark text-decoration-none decrease" type="button">-</button>
+                                    <input type="text" class="form-control border-0 text-center bg-transparent counter" value="@item.Quantity" name="Quantity">
+                                    <button class="btn btn-link text-dark text-decoration-none increase" type="button">+</button>
                                 </div>
                             </div>
                             <div class="col-8">
-                                <button type="submit" class="btn btn-dark w-60 py-2 fw-bold text-uppercase">Modifiy</button>
+                                <button type="submit" class="btn btn-dark w-60 py-2 fw-bold text-uppercase">Modify</button>
                             </div>
                         </div>
                     </div>
                 </form>
-
-
             </div>
         </div>
     </div>
-
-
-
-
-
 }
 
+<!-- Place Your Order -->
+@if (Model.Any())
+{
+    <div class="text-center mt-5">
+        <a asp-controller="Order" asp-action="Create" class="btn btn-success btn-lg fw-bold px-5 py-3">
+            <i class="bi bi-bag-check"></i> Place Your Order
+        </a>
+    </div>
+}
+else
+{
+    <div class="alert alert-info text-center mt-5">
+        Your cart is empty. Start shopping to add products!
+    </div>
+}
 
 <script>
     document.addEventListener("DOMContentLoaded", () => {

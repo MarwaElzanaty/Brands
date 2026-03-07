@@ -7,23 +7,23 @@ namespace LocalBrands.Data.Repository.Implementation
 {
     public class OrderRepo : IOrderRepo
     {
-        // Ref from context
-        ApplicationDB context;
+        private readonly ApplicationDB context;
 
-        // context injected 
+        // context injected
         public OrderRepo(ApplicationDB context)
         {
             this.context = context;
         }
-        // crud operations
+
+        // CRUD operations
         public void Add(Order entity)
         {
-            context.Add(entity);
+            context.Order.Add(entity);
         }
 
         public void Delete(Order entity)
         {
-            context.Remove(entity);
+            context.Order.Remove(entity);
         }
 
         public void DeleteById(int id)
@@ -31,34 +31,38 @@ namespace LocalBrands.Data.Repository.Implementation
             var item = GetById(id);
             if (item != null)
             {
-                context.Remove(item);
+                context.Order.Remove(item);
             }
         }
 
         public List<Order> GetAll()
         {
-            List<Order> orders = new List<Order>();
-            orders = context.Order
-                .Include(u => u.User)
+            return context.Order
+                .Include(o => o.User)
                 .Include(o => o.OrderItems)
-                .Include(p => p.Payment)
+                    .ThenInclude(oi => oi.Product) 
+                .Include(o => o.Payment)
                 .ToList();
-            return orders;
         }
 
         public Order? GetById(int id)
         {
-            return context.Order.SingleOrDefault(d => d.Id == id);
+            return context.Order
+                .Include(o => o.User)
+                .Include(o => o.OrderItems)
+                    .ThenInclude(oi => oi.Product) 
+                .Include(o => o.Payment)
+                .SingleOrDefault(o => o.Id == id);
         }
 
         public void Save()
         {
-           context.SaveChanges();
+            context.SaveChanges();
         }
 
         public void Update(Order entity)
         {
-            context.Update(entity);
+            context.Order.Update(entity);
         }
     }
 }

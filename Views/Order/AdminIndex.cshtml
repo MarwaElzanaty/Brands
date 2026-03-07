@@ -1,0 +1,64 @@
+﻿@model IEnumerable<LocalBrands.Models.Order>
+@{
+    ViewData["Title"] = "Orders Dashboard (Admin)";
+}
+
+<div class="container mt-5">
+    <div class="card shadow-lg">
+        <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+            <h3 class="mb-0">
+                <i class="fa-solid fa-list me-2"></i> Orders Dashboard
+            </h3>
+            <a asp-action="Create" class="btn btn-success btn-sm fw-bold">
+                <i class="bi bi-plus-circle"></i> New Order
+            </a>
+        </div>
+
+        <div class="card-body">
+            <table class="table table-striped shadow-sm">
+                <thead class="table-primary">
+                    <tr>
+                        <th>ID</th>
+                        <th>User</th>
+                        <th>Status</th>
+                        <th>Total</th>
+                        <th>Payment Amount</th>
+                        <th>Payment Method</th>
+                        <th>Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var order in Model)
+                    {
+                        <tr>
+                            <td>@order.Id</td>
+                            <td>@(order.User?.UserName ?? "Unknown")</td>
+                            <td>
+                                <span class="badge @(order.Status == "Pending" ? "bg-warning text-dark" :
+                                                                                           order.Status == "Confirmed" ? "bg-info text-dark" :
+                                                                                           order.Status == "Completed" ? "bg-success" : "bg-secondary")">
+                                    @order.Status
+                                </span>
+                            </td>
+                            <td>@order.TotalAmount.ToString("C")</td>
+                            <td>@(order.Payment?.Amount.ToString("C") ?? "No payment")</td>
+                            <td>@(order.Payment?.Method ?? "No method")</td>
+                            <td>@(order.Payment?.PaymentDate?.ToString("dd/MM/yyyy HH:mm") ?? "No date")</td>
+                            <td>
+                                <a asp-action="AdminDetails" asp-route-id="@order.Id" class="btn btn-info btn-sm">
+                                    <i class="bi bi-eye"></i> Details
+                                </a>
+                                <form asp-action="AdminDelete" asp-route-id="@order.Id" method="post" class="d-inline">
+                                    <button type="submit" class="btn btn-danger btn-sm">
+                                        <i class="bi bi-trash"></i> Delete
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

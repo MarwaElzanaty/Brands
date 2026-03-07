@@ -8,9 +8,9 @@ namespace LocalBrands.Models
         [Key, ForeignKey("Order")]
         public int OrderId { get; set; }
         public decimal Amount { get; set; }
-        public DateTime PaymentDate { get; set; }
-        public string Method { get; set; }
-      
+        public DateTime? PaymentDate { get; set; }   // Nullable
+        public string? Method { get; set; }          // Nullable
+
         public virtual Order Order { get; set; }
     }
 }

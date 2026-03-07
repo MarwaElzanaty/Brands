@@ -27,6 +27,12 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 })
 .AddEntityFrameworkStores<ApplicationDB>();
 
+<<<<<<< HEAD
+=======
+
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IUserService, UserService>();
+>>>>>>> 3e6609e20bbaee3eea91a9662c1e90e2fed8f240
 
 
 // Register Repositories ::
@@ -41,9 +47,21 @@ builder.Services.AddScoped<IOrderRepo, OrderRepo>();
 
 // Register Services::
 builder.Services.AddScoped<IHomeService, HomeService>();
+<<<<<<< HEAD
 builder.Services.AddScoped<IReviewService,ReviewService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IUserService, UserService>();
+=======
+
+builder.Services.AddScoped<ICategoryRepo, CategoryRepo>();
+
+builder.Services.AddScoped<IOrderRepo, OrderRepo>();
+builder.Services.AddScoped<ICartRepo, CartRepo>();
+builder.Services.AddScoped<ICartItemRepo, CartItemRepo>();
+
+builder.Services.AddScoped<IOrderItemRepo, OrderItemRepo>();
+
+>>>>>>> 3e6609e20bbaee3eea91a9662c1e90e2fed8f240
 
 
 

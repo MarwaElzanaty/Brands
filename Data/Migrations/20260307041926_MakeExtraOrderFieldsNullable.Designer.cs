@@ -4,6 +4,7 @@ using LocalBrands.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LocalBrands.Migrations
 {
     [DbContext(typeof(ApplicationDB))]
-    partial class ApplicationDBModelSnapshot : ModelSnapshot
+    [Migration("20260307041926_MakeExtraOrderFieldsNullable")]
+    partial class MakeExtraOrderFieldsNullable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -315,14 +318,22 @@ namespace LocalBrands.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Method")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("PaymentDate")
+                    b.Property<DateTime>("PaymentDate")
                         .HasColumnType("datetime2");
 
                     b.HasKey("OrderId");
 
-                    b.ToTable("Payment", (string)null);
+                    b.ToTable("Order", null, t =>
+                        {
+                            t.Property("Method")
+                                .HasColumnName("Payment_Method");
+
+                            t.Property("PaymentDate")
+                                .HasColumnName("PaymentDate1");
+                        });
                 });
 
             modelBuilder.Entity("LocalBrands.Models.Product", b =>
@@ -588,62 +599,6 @@ namespace LocalBrands.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Review");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Content = "Amazing quality and great fabric, highly recommended!",
-                            CreatedAt = new DateTime(2026, 3, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ProductId = 1,
-                            Rating = 5,
-                            UserId = "143f2d00-a63c-43b0-acab-f525e79c6bcf"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Content = "Very good, but the delivery was slightly delayed.",
-                            CreatedAt = new DateTime(2026, 3, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ProductId = 2,
-                            Rating = 4,
-                            UserId = "143f2d00-a63c-43b0-acab-f525e79c6bcf"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Content = "The design is beautiful and very comfortable to wear.",
-                            CreatedAt = new DateTime(2026, 3, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ProductId = 3,
-                            Rating = 5,
-                            UserId = "143f2d00-a63c-43b0-acab-f525e79c6bcf"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Content = "Acceptable quality considering the price point.",
-                            CreatedAt = new DateTime(2026, 3, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ProductId = 4,
-                            Rating = 3,
-                            UserId = "143f2d00-a63c-43b0-acab-f525e79c6bcf"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Content = "Proud to support local brands, world-class craftsmanship!",
-                            CreatedAt = new DateTime(2026, 3, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ProductId = 5,
-                            Rating = 5,
-                            UserId = "143f2d00-a63c-43b0-acab-f525e79c6bcf"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            Content = "Excellent experience, I will definitely buy again.",
-                            CreatedAt = new DateTime(2026, 3, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ProductId = 6,
-                            Rating = 5,
-                            UserId = "143f2d00-a63c-43b0-acab-f525e79c6bcf"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
